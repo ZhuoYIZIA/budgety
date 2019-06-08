@@ -66,6 +66,11 @@ var budgetController = (function () {
                 data.percentage = -1;
             }
         },
+        delectItem:function(type , id){
+            data.allItems[type].map(function(cur,ind,arr){
+                console.log(cur);
+            });
+        },
         getBudjet: function(){
             return {
                 budget: data.budget,
@@ -94,6 +99,7 @@ var UIController = (function () {
         incomeLable: '.budget__income--value',
         expenseLable: '.budget__expenses--value',
         percentageLable: '.budget__expenses--percentage',
+        container :'.container',
     }
 
     return {
@@ -108,7 +114,7 @@ var UIController = (function () {
             let HTML, element;
             if (type === 'exp') {
                 element = DOMString.expenseComtainer;
-                HTML = `<div class="item clearfix" id="expense-${obj.id}">
+                HTML = `<div class="item clearfix" id="exp-${obj.id}">
                             <div class="item__description">${obj.description}</div>
                             <div class="right clearfix">
                                 <div class="item__value">${obj.value}</div>
@@ -120,7 +126,7 @@ var UIController = (function () {
                         </div>`
             } else if (type === 'inc') {
                 element = DOMString.incomeContainer;
-                HTML = `<div class="item clearfix" id="income-${obj.id}">
+                HTML = `<div class="item clearfix" id="inc-${obj.id}">
                             <div class="item__description">${obj.description}</div>
                             <div class="right clearfix">
                                 <div class="item__value">${obj.value}</div>
@@ -173,6 +179,7 @@ var Controller = (function (budgetCtrl, UICtrl) {
                 CtrlAddItem();
             }
         });
+        document.querySelector(DOMString.container).addEventListener('click',ctrlDelectItem);
     }
 
     const updateBudget = function () {
@@ -199,6 +206,19 @@ var Controller = (function (budgetCtrl, UICtrl) {
             //計算、更新 budget
             updateBudget();
         }
+    }
+
+    const ctrlDelectItem = function(e){
+        let itemID , splitID , type , ID;
+        itemID = e.target.parentNode.parentNode.parentNode.parentNode.id
+        splitID = itemID.split('-');
+        type = splitID[0];
+        ID = splitID[1];
+
+        // 刪除data的資料
+        budgetCtrl.delectItem(type , ID);
+        // 刪除畫面上的資料
+        // 重新計算budget、income、expense
     }
 
     return {
