@@ -121,7 +121,7 @@ var UIController = (function () {
                                 <div class="item__percentage">21%</div>
                                 <div class="item__delete">
                                     <button class="item__delete--btn">
-                                    <i class="ion-ios-close-outline"></i>
+                                    <i class="ion-ios-close-circle-outline"></i>
                                     </button>
                                 </div>
                             </div>
